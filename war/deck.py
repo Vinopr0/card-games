@@ -14,12 +14,11 @@ class Card():
     # for colorama to use for the terminal styling.
     # if you'd rather have RED for both Hearts and Diamonds,
     # and WHITE for both Clubs and Spades, go ahead!
-
     suites_styling = {
         "Spades": ("♠", c.Fore.WHITE),
         "Hearts": ("♥", c.Fore.RED),
         "Diamonds": ("♦", c.Fore.YELLOW),
-        "Clubs": ("♣", c.Fore.BLUE),
+        "Clubs": ("♣", c.Fore.BLUE)
     }
 
     def __init__(self, rank, suit):
@@ -39,7 +38,16 @@ class Deck():
         self.deck = []
         for suit in Card.suites:
             for rank in Card.ranks:
-                self.deck.append(Card(rank, suit)) 
+                self.deck.append(Card(rank, suit))
+
+    def pop(self, index=-1):
+        return self.deck.pop(index)
+
+    def append(self, card):
+        return self.deck.append(card)
+
+    def extend(self, cards):
+        return self.deck.extend(cards)
     
     def shuffle(self): # shuffles cards, unorders them
         random.shuffle(self.deck)
@@ -51,10 +59,12 @@ class Deck():
             ]
 
     def print_deck_by_suit(self):
+        print(c.Fore.RESET + "\nDeck:")
         for suit in Card.suites:
             suit_deck = [card for card in self.deck if card.suit == suit]
             [print(card, end=' ') for card in suit_deck]
             print(f"({len(suit_deck)})")
+        print()
     
     def print_deck_by_rank(self):
         pass
@@ -62,6 +72,10 @@ class Deck():
     def print_deck_unordered(self):
         for card in self.deck:
             print(card, end=' ')
+        print()
+        [print(c.Fore.RESET + f" {i}  ", end=' ') for i, v in enumerate(self.deck) if i < 10]
+        [print(c.Fore.RESET + f" {i} ", end=' ') for i, v in enumerate(self.deck) if i >= 10]
+        print()
     
     def total_points_in_deck(self):
         return sum([Card.values[card.rank] for card in self.deck])
@@ -72,26 +86,14 @@ class Deck():
     def __str__(self):
         return f"This deck has {len(self.deck)} cards that total {self.total_points_in_deck()} points."
 
+# new_deck = Deck()
+# new_deck.create_new_deck()
 
-aceOfSpades = Card("A", "Spades")
-aceOfHearts = Card("A", "Hearts")
+# new_deck.shuffle() 
 
-new_deck = Deck()
-new_deck.create_new_deck()
+# p1_deck, p2_deck = new_deck.split_in_half()
 
-new_deck.shuffle() 
-
-p1_deck, p2_deck = new_deck.split_in_half()
-
-print(c.Fore.RESET + f"Player 1 has {len(p1_deck.deck)} cards.")
-print(p1_deck.total_points_in_deck())
-p1_deck.print_deck_by_suit()
-
-print()
-
-print(c.Fore.RESET + f"Player 2 has {len(p2_deck.deck)} cards.")
-print(p2_deck.total_points_in_deck())
-p2_deck.print_deck_by_suit()
+# p1_deck.print_deck_unordered()
 
 c.Fore.RESET
 
