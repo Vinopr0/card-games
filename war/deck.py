@@ -25,6 +25,9 @@ class Card():
         self.rank = rank
         self.suit = suit
     
+    def get_value(self):
+        return self.values[self.rank]
+
     def __str__(self):
         symbol, color = Card.suites_styling[self.suit]
         return color + f"|{self.rank}{symbol}|" # for terminal
@@ -58,12 +61,13 @@ class Deck():
             Deck(self.deck[26:]) # card 27 to card 
             ]
 
-    def print_deck_by_suit(self):
-        print(c.Fore.RESET + "\nDeck:")
+    def print_deck_by_suit(self, name="Unowned"):
+        print(c.Fore.RESET + f"\n{name}'s Deck:")
         for suit in Card.suites:
             suit_deck = [card for card in self.deck if card.suit == suit]
             [print(card, end=' ') for card in suit_deck]
             print(f"({len(suit_deck)})")
+            c.Fore.RESET
         print()
     
     def print_deck_by_rank(self):
